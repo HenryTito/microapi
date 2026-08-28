@@ -1,0 +1,39 @@
+services:
+  mongo:
+    image: mongo:7
+    container_name: microapi-mongo
+    restart: unless-stopped
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongo-dados:/data/db
+    healthcheck:
+      test: ["CMD", "mongosh", "--eval", "db.adminCommand('ping')"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  backend:
+    build: ./backend-app
+    container_name: microapi-backend
+    restart: unless-stopped
+    environment:
+      PORT: 8888
+      MONGO_URI: mongodb://mongo:27017/microapi
+    ports:
+      - "8888:8888"
+    depends_on:
+      mongo:
+        condition: service_healthy
+
+  frontend:
+    build: ./frontend-app
+    container_name: microapi-frontend
+    restart: unless-stopped
+    ports:
+      - "8080:80"
+    depends_on:
+      - backend
+
+volumes:
+  mongo-dados:

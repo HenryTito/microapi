@@ -1,0 +1,20 @@
+{
+  "name": "microapi-backend",
+  "version": "1.0.0",
+  "description": "API REST de usuários em Node.js + Express + MongoDB",
+  "type": "module",
+  "main": "src/servidor.js",
+  "scripts": {
+    "start": "node src/servidor.js",
+    "dev": "node --watch src/servidor.js"
+  },
+  "engines": {
+    "node": ">=20"
+  },
+  "dependencies": {
+    "cors": "^2.8.5",
+    "dotenv": "^16.4.7",
+    "express": "^5.1.0",
+    "mongoose": "^8.9.5"
+  }
+}

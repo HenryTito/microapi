@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>microapi — Usuários</title>
+    <link rel="stylesheet" href="estilos.css" />
+  </head>
+  <body>
+    <header>
+      <h1>Usuários</h1>
+      <span id="status" class="status"></span>
+    </header>
+
+    <main>
+      <section class="cartao">
+        <h2 id="tituloFormulario">Novo usuário</h2>
+        <form id="formulario">
+          <input type="hidden" id="id" />
+          <label>
+            Nome
+            <input type="text" id="nome" required placeholder="Maria Silva" />
+          </label>
+          <label>
+            E-mail
+            <input type="email" id="email" required placeholder="maria@exemplo.com" />
+          </label>
+          <label>
+            Foto (URL)
+            <input type="url" id="foto" placeholder="https://..." />
+          </label>
+          <div class="acoes">
+            <button type="submit" id="botaoSalvar">Salvar</button>
+            <button type="button" id="botaoCancelar" class="secundario" hidden>
+              Cancelar
+            </button>
+          </div>
+        </form>
+        <p id="mensagem" class="mensagem" hidden></p>
+      </section>
+
+      <section class="cartao">
+        <h2>Lista</h2>
+        <ul id="lista" class="lista"></ul>
+        <p id="vazio" class="vazio" hidden>Nenhum usuário cadastrado.</p>
+      </section>
+    </main>
+
+    <script src="app.js"></script>
+  </body>
+</html>

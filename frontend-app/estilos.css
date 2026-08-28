@@ -1,0 +1,122 @@
+:root {
+  --fundo: #f5f6f8;
+  --cartao: #ffffff;
+  --texto: #1f2430;
+  --suave: #6b7280;
+  --borda: #e3e6ea;
+  --acento: #2563eb;
+  --perigo: #dc2626;
+}
+
+* { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  background: var(--fundo);
+  color: var(--texto);
+}
+
+header {
+  display: flex;
+  align-items: baseline;
+  gap: 12px;
+  padding: 24px 32px;
+  background: var(--cartao);
+  border-bottom: 1px solid var(--borda);
+}
+
+header h1 { margin: 0; font-size: 20px; }
+
+.status { font-size: 13px; color: var(--suave); }
+.status.erro { color: var(--perigo); }
+
+main {
+  max-width: 760px;
+  margin: 0 auto;
+  padding: 24px 16px 48px;
+  display: grid;
+  gap: 20px;
+}
+
+.cartao {
+  background: var(--cartao);
+  border: 1px solid var(--borda);
+  border-radius: 10px;
+  padding: 20px;
+}
+
+.cartao h2 { margin: 0 0 16px; font-size: 16px; }
+
+form { display: grid; gap: 12px; }
+
+label {
+  display: grid;
+  gap: 4px;
+  font-size: 13px;
+  color: var(--suave);
+}
+
+input {
+  padding: 9px 11px;
+  border: 1px solid var(--borda);
+  border-radius: 6px;
+  font-size: 14px;
+  color: var(--texto);
+  background: #fff;
+}
+
+input:focus { outline: 2px solid var(--acento); outline-offset: -1px; }
+
+.acoes { display: flex; gap: 8px; }
+
+button {
+  padding: 9px 16px;
+  border: 0;
+  border-radius: 6px;
+  background: var(--acento);
+  color: #fff;
+  font-size: 14px;
+  cursor: pointer;
+}
+
+button.secundario { background: #e5e7eb; color: var(--texto); }
+button.perigo { background: transparent; color: var(--perigo); padding: 4px 8px; }
+button:hover { filter: brightness(0.95); }
+
+.mensagem {
+  margin: 12px 0 0;
+  font-size: 13px;
+  color: var(--perigo);
+}
+
+.lista { list-style: none; margin: 0; padding: 0; display: grid; gap: 8px; }
+
+.lista li {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 10px;
+  border: 1px solid var(--borda);
+  border-radius: 8px;
+}
+
+.lista img,
+.lista .avatar {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  object-fit: cover;
+  background: #e5e7eb;
+  display: grid;
+  place-items: center;
+  font-size: 14px;
+  color: var(--suave);
+  flex: none;
+}
+
+.dados { flex: 1; min-width: 0; }
+.dados strong { display: block; font-size: 14px; }
+.dados span { font-size: 13px; color: var(--suave); word-break: break-all; }
+
+.vazio { color: var(--suave); font-size: 14px; margin: 0; }
