@@ -9,7 +9,7 @@ function tratarErro(res, err) {
   if (err.name === "ValidationError") {
     return res.status(400).json({ erro: err.message });
   }
-  // Índice único do e-mail
+
   if (err.code === 11000) {
     return res.status(409).json({ erro: "Já existe um usuário com este e-mail" });
   }
@@ -55,7 +55,7 @@ export async function atualizar(req, res) {
 
   try {
     const { nome, email, foto } = req.body;
-    // Só envia ao Mongo os campos realmente informados (atualização parcial)
+   
     const dados = {};
     if (nome !== undefined) dados.nome = nome;
     if (email !== undefined) dados.email = email;

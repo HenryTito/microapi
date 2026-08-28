@@ -1,4 +1,3 @@
-// Em Docker o nginx faz proxy de /api para o backend; fora dele usamos a API local.
 const API =
   location.port === "5173" || location.protocol === "file:"
     ? "http://localhost:8888"
@@ -24,10 +23,6 @@ const ponto = el("ponto");
 const statusTexto = el("statusTexto");
 const avisos = el("avisos");
 
-/* ---------- avatar ---------- */
-
-// Deriva uma cor estável a partir do texto, para que cada pessoa
-// tenha sempre o mesmo avatar quando não houver foto.
 function corDoTexto(texto) {
   let soma = 0;
   for (const caractere of texto) soma = (soma * 31 + caractere.codePointAt(0)) % 360;
@@ -49,7 +44,6 @@ function montarAvatar(usuario, classes = "avatar") {
     img.src = usuario.foto;
     img.alt = "";
     img.loading = "lazy";
-    // Se a URL da foto quebrar, cai para as iniciais.
     img.onerror = () => img.replaceWith(montarAvatar({ ...usuario, foto: "" }, classes));
     return img;
   }
@@ -60,8 +54,6 @@ function montarAvatar(usuario, classes = "avatar") {
   div.style.background = corDoTexto(usuario.nome || usuario.email);
   return div;
 }
-
-/* ---------- avisos ---------- */
 
 function avisar(texto, tipo = "ok") {
   const aviso = document.createElement("div");
@@ -74,8 +66,6 @@ function avisar(texto, tipo = "ok") {
     aviso.addEventListener("animationend", () => aviso.remove(), { once: true });
   }, 3200);
 }
-
-/* ---------- API ---------- */
 
 async function requisitar(caminho, opcoes = {}) {
   const resposta = await fetch(`${API}${caminho}`, {
@@ -92,8 +82,6 @@ function definirStatus(texto, estado) {
   ponto.classList.toggle("ativo", estado === "ativo");
   ponto.classList.toggle("falha", estado === "falha");
 }
-
-/* ---------- lista ---------- */
 
 function criarItem(usuario) {
   const item = document.createElement("li");
@@ -168,8 +156,6 @@ async function carregar({ silencioso = false } = {}) {
     definirStatus("sem conexão", "falha");
   }
 }
-
-/* ---------- formulário ---------- */
 
 function preencherFormulario(usuario) {
   campoId.value = usuario._id;
@@ -257,7 +243,6 @@ formulario.addEventListener("submit", async (evento) => {
 botaoCancelar.addEventListener("click", limparFormulario);
 el("botaoTentar").addEventListener("click", () => carregar());
 
-// Esc cancela a edição em andamento
 document.addEventListener("keydown", (evento) => {
   if (evento.key === "Escape" && campoId.value) limparFormulario();
 });

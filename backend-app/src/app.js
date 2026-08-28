@@ -17,12 +17,10 @@ app.get("/health", (req, res) => {
 
 app.use("/usuarios", rotasUsuarios);
 
-// Rota não encontrada
 app.use((req, res) => {
   res.status(404).json({ erro: "Rota não encontrada" });
 });
 
-// Tratamento de erros (ex.: JSON malformado no corpo da requisição)
 app.use((err, req, res, next) => {
   if (err.type === "entity.parse.failed") {
     return res.status(400).json({ erro: "JSON inválido" });

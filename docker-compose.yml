@@ -19,8 +19,6 @@ services:
     restart: unless-stopped
     environment:
       PORT: 8888
-      # Definido no arquivo .env da raiz (não versionado).
-      # Sem ele, usa o container mongo deste compose.
       MONGO_URI: ${MONGO_URI:-mongodb://mongo:27017/microapi}
     ports:
       - "8888:8888"

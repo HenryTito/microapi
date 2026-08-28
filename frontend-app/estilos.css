@@ -35,7 +35,6 @@
   box-sizing: border-box;
 }
 
-/* Sem isto, o display das classes venceria o atributo hidden do HTML. */
 [hidden] {
   display: none !important;
 }
@@ -50,16 +49,13 @@ body {
   background: var(--fundo);
 }
 
-/* ---------- cabeçalho ---------- */
-
 .cabecalho {
   display: flex;
   align-items: center;
   justify-content: space-between;
   gap: 16px;
   flex-wrap: wrap;
-  /* Acompanha a largura máxima do conteúdo, sem sair da borda da tela. */
-  padding: 14px max(20px, calc(50% - 490px));
+    padding: 14px max(20px, calc(50% - 490px));
   border-bottom: 1px solid var(--borda);
   background: var(--superficie);
 }
@@ -104,8 +100,6 @@ body {
 .ponto.falha {
   background: var(--perigo);
 }
-
-/* ---------- layout ---------- */
 
 main {
   max-width: 980px;
@@ -165,8 +159,6 @@ h2 {
   color: var(--texto-suave);
   font-variant-numeric: tabular-nums;
 }
-
-/* ---------- formulário ---------- */
 
 form {
   display: grid;
@@ -257,8 +249,6 @@ button:focus-visible {
   background: var(--realce);
 }
 
-/* ---------- lista ---------- */
-
 .lista {
   list-style: none;
   margin: 0;
@@ -345,8 +335,6 @@ button:focus-visible {
   color: var(--perigo);
 }
 
-/* ---------- estados ---------- */
-
 .estado {
   padding: 28px 4px;
   color: var(--texto-suave);
@@ -396,8 +384,6 @@ button:focus-visible {
     background-position: -200% 0;
   }
 }
-
-/* ---------- avisos ---------- */
 
 .avisos {
   position: fixed;
