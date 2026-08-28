@@ -23,6 +23,28 @@ docker compose up -d --build
 
 Para parar: `docker compose down` (use `docker compose down -v` para apagar também os dados do Mongo).
 
+## Usando um MongoDB externo (Atlas)
+
+Por padrão o compose usa o container `mongo`. Para apontar a API a um cluster no
+MongoDB Atlas, crie um arquivo `.env` na raiz (ele **não** é versionado):
+
+```bash
+cp .env.example .env
+```
+
+```
+MONGO_URI=mongodb+srv://USUARIO:SENHA@SEU-CLUSTER.xxxxx.mongodb.net/microapi?retryWrites=true&w=majority
+```
+
+E suba de novo: `docker compose up -d backend`. O log deve mostrar
+`Conectado ao MongoDB`.
+
+Nunca coloque a URI com senha direto no `docker-compose.yml` — ela iria para o
+Git. Se a senha tiver caracteres especiais (`@`, `#`, `/`, `:`), use
+percent-encoding. No Atlas, lembre-se de liberar seu IP em **Network Access**;
+sem isso a conexão falha por timeout. Já um erro `bad auth : authentication
+failed` significa que o cluster respondeu e o usuário/senha é que foi recusado.
+
 ## Rodando sem Docker
 
 É preciso ter um MongoDB acessível.
@@ -103,4 +125,5 @@ Sempre em JSON no formato `{ "erro": "mensagem" }`.
 | `PORT`      | `8888`                              |
 | `MONGO_URI` | `mongodb://localhost:27017/microapi` |
 
-No `docker-compose.yml` o `MONGO_URI` aponta para `mongodb://mongo:27017/microapi`.
+No compose, `MONGO_URI` vem do `.env` da raiz e, se ele não existir, cai em
+`mongodb://mongo:27017/microapi` (o container local).
