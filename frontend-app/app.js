@@ -14,9 +14,6 @@ const campoFoto = el("foto");
 const botaoSalvar = el("botaoSalvar");
 const botaoCancelar = el("botaoCancelar");
 const tituloFormulario = el("tituloFormulario");
-const etiquetaModo = el("etiquetaModo");
-const previaNome = el("previaNome");
-const previaEmail = el("previaEmail");
 const lista = el("lista");
 const contador = el("contador");
 const carregando = el("carregando");
@@ -27,17 +24,6 @@ const ponto = el("ponto");
 const statusTexto = el("statusTexto");
 const avisos = el("avisos");
 
-const ICONES = {
-  editar:
-    '<path d="M4 20h4l10.5-10.5a2.1 2.1 0 0 0-3-3L5 17v3z"/><path d="M13.5 6.5l3 3"/>',
-  remover:
-    '<path d="M4 7h16"/><path d="M9 7V5h6v2"/><path d="M6 7l1 13h10l1-13"/><path d="M10 11v6M14 11v6"/>',
-};
-
-function svg(nome) {
-  return `<svg viewBox="0 0 24 24" aria-hidden="true">${ICONES[nome]}</svg>`;
-}
-
 /* ---------- avatar ---------- */
 
 // Deriva uma cor estável a partir do texto, para que cada pessoa
@@ -45,7 +31,7 @@ function svg(nome) {
 function corDoTexto(texto) {
   let soma = 0;
   for (const caractere of texto) soma = (soma * 31 + caractere.codePointAt(0)) % 360;
-  return `hsl(${soma} 62% 52%)`;
+  return `hsl(${soma} 32% 45%)`;
 }
 
 function iniciais(nome) {
@@ -70,13 +56,8 @@ function montarAvatar(usuario, classes = "avatar") {
 
   const div = document.createElement("div");
   div.className = classes;
-  const semDados = !usuario.nome && !usuario.email;
-  div.textContent = semDados ? "?" : iniciais(usuario.nome || usuario.email);
-  // Sem nome digitado o avatar fica neutro, para não sugerir uma pessoa.
-  div.style.background = semDados
-    ? "var(--borda-forte)"
-    : corDoTexto(usuario.nome || usuario.email);
-  if (semDados) div.style.color = "var(--texto-suave)";
+  div.textContent = iniciais(usuario.nome || usuario.email);
+  div.style.background = corDoTexto(usuario.nome || usuario.email);
   return div;
 }
 
@@ -133,19 +114,17 @@ function criarItem(usuario) {
   botoes.className = "botoes-item";
 
   const editar = document.createElement("button");
-  editar.className = "icone";
+  editar.className = "acao-texto";
   editar.type = "button";
-  editar.title = "Editar";
+  editar.textContent = "Editar";
   editar.setAttribute("aria-label", `Editar ${usuario.nome}`);
-  editar.innerHTML = svg("editar");
   editar.onclick = () => preencherFormulario(usuario);
 
   const remover = document.createElement("button");
-  remover.className = "icone remover";
+  remover.className = "acao-texto remover";
   remover.type = "button";
-  remover.title = "Remover";
+  remover.textContent = "Remover";
   remover.setAttribute("aria-label", `Remover ${usuario.nome}`);
-  remover.innerHTML = svg("remover");
   remover.onclick = () => removerUsuario(usuario);
 
   botoes.append(editar, remover);
@@ -192,31 +171,14 @@ async function carregar({ silencioso = false } = {}) {
 
 /* ---------- formulário ---------- */
 
-function atualizarPrevia() {
-  const nome = campoNome.value.trim();
-  const email = campoEmail.value.trim();
-  const foto = campoFoto.value.trim();
-
-  previaNome.textContent = nome || "Sem nome";
-  previaEmail.textContent = email || "sem e-mail";
-
-  // O avatar vive dentro de um contêiner fixo, porque o próprio nó é trocado
-  // a cada digitação e também quando uma URL de foto falha ao carregar.
-  el("previaAvatar").replaceChildren(
-    montarAvatar({ nome, email, foto }, "avatar grande")
-  );
-}
-
 function preencherFormulario(usuario) {
   campoId.value = usuario._id;
   campoNome.value = usuario.nome;
   campoEmail.value = usuario.email;
   campoFoto.value = usuario.foto || "";
   tituloFormulario.textContent = "Editar usuário";
-  etiquetaModo.textContent = "editando";
   botaoSalvar.textContent = "Salvar alterações";
   botaoCancelar.hidden = false;
-  atualizarPrevia();
   marcarSelecionado();
   campoNome.focus();
 }
@@ -225,13 +187,11 @@ function limparFormulario() {
   formulario.reset();
   campoId.value = "";
   tituloFormulario.textContent = "Novo usuário";
-  etiquetaModo.textContent = "criar";
-  botaoSalvar.textContent = "Salvar usuário";
+  botaoSalvar.textContent = "Salvar";
   botaoCancelar.hidden = true;
   for (const campo of [campoNome, campoEmail, campoFoto]) {
     campo.classList.remove("invalido");
   }
-  atualizarPrevia();
   marcarSelecionado();
 }
 
@@ -297,14 +257,9 @@ formulario.addEventListener("submit", async (evento) => {
 botaoCancelar.addEventListener("click", limparFormulario);
 el("botaoTentar").addEventListener("click", () => carregar());
 
-for (const campo of [campoNome, campoEmail, campoFoto]) {
-  campo.addEventListener("input", atualizarPrevia);
-}
-
 // Esc cancela a edição em andamento
 document.addEventListener("keydown", (evento) => {
   if (evento.key === "Escape" && campoId.value) limparFormulario();
 });
 
-atualizarPrevia();
 carregar();
