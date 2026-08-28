@@ -4,47 +4,103 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>microapi — Usuários</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
     <link rel="stylesheet" href="estilos.css" />
   </head>
   <body>
-    <header>
-      <h1>Usuários</h1>
-      <span id="status" class="status"></span>
+    <div class="brilho" aria-hidden="true"></div>
+
+    <header class="cabecalho">
+      <div class="marca">
+        <div class="logo" aria-hidden="true">m</div>
+        <div>
+          <h1>microapi</h1>
+          <p>Cadastro de usuários</p>
+        </div>
+      </div>
+      <div class="indicador" id="indicador">
+        <span class="ponto" id="ponto"></span>
+        <span id="statusTexto">conectando…</span>
+      </div>
     </header>
 
     <main>
-      <section class="cartao">
-        <h2 id="tituloFormulario">Novo usuário</h2>
-        <form id="formulario">
+      <section class="painel formulario" aria-labelledby="tituloFormulario">
+        <div class="painel-topo">
+          <h2 id="tituloFormulario">Novo usuário</h2>
+          <span class="etiqueta" id="etiquetaModo">criar</span>
+        </div>
+
+        <form id="formulario" novalidate>
           <input type="hidden" id="id" />
-          <label>
-            Nome
-            <input type="text" id="nome" required placeholder="Maria Silva" />
-          </label>
-          <label>
-            E-mail
-            <input type="email" id="email" required placeholder="maria@exemplo.com" />
-          </label>
-          <label>
-            Foto (URL)
-            <input type="url" id="foto" placeholder="https://..." />
-          </label>
+
+          <div class="previa">
+            <div class="previa-avatar" id="previaAvatar">
+              <div class="avatar grande">?</div>
+            </div>
+            <div class="previa-texto">
+              <strong id="previaNome">Sem nome</strong>
+              <span id="previaEmail">sem e-mail</span>
+            </div>
+          </div>
+
+          <div class="campo">
+            <label for="nome">Nome</label>
+            <input type="text" id="nome" required placeholder="Maria Silva" autocomplete="off" />
+          </div>
+
+          <div class="campo">
+            <label for="email">E-mail</label>
+            <input type="email" id="email" required placeholder="maria@exemplo.com" autocomplete="off" />
+          </div>
+
+          <div class="campo">
+            <label for="foto">Foto <span class="opcional">opcional</span></label>
+            <input type="url" id="foto" placeholder="https://i.pravatar.cc/160" autocomplete="off" />
+          </div>
+
           <div class="acoes">
-            <button type="submit" id="botaoSalvar">Salvar</button>
-            <button type="button" id="botaoCancelar" class="secundario" hidden>
-              Cancelar
-            </button>
+            <button type="submit" id="botaoSalvar" class="primario">Salvar usuário</button>
+            <button type="button" id="botaoCancelar" class="fantasma" hidden>Cancelar</button>
           </div>
         </form>
-        <p id="mensagem" class="mensagem" hidden></p>
       </section>
 
-      <section class="cartao">
-        <h2>Lista</h2>
+      <section class="painel lista-painel" aria-labelledby="tituloLista">
+        <div class="painel-topo">
+          <h2 id="tituloLista">Usuários</h2>
+          <span class="contador" id="contador">0</span>
+        </div>
+
         <ul id="lista" class="lista"></ul>
-        <p id="vazio" class="vazio" hidden>Nenhum usuário cadastrado.</p>
+
+        <div id="carregando" class="esqueleto" aria-hidden="true">
+          <div class="linha"></div>
+          <div class="linha"></div>
+          <div class="linha"></div>
+        </div>
+
+        <div id="vazio" class="estado-vazio" hidden>
+          <div class="estado-icone" aria-hidden="true">+</div>
+          <p><strong>Nenhum usuário ainda</strong></p>
+          <p>Preencha o formulário ao lado para cadastrar o primeiro.</p>
+        </div>
+
+        <div id="falha" class="estado-vazio erro" hidden>
+          <div class="estado-icone" aria-hidden="true">!</div>
+          <p><strong>Não foi possível falar com a API</strong></p>
+          <p id="falhaDetalhe"></p>
+          <button type="button" class="fantasma" id="botaoTentar">Tentar de novo</button>
+        </div>
       </section>
     </main>
+
+    <div id="avisos" class="avisos" role="status" aria-live="polite"></div>
 
     <script src="app.js"></script>
   </body>
